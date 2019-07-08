@@ -15,7 +15,7 @@
 [codecov-url]: https://codecov.io/github/eggjs-community/egg-fetch-middleware?branch=master
 [david-image]: https://img.shields.io/david/eggjs-community/egg-fetch-middleware.svg?style=flat-square
 [david-url]: https://david-dm.org/eggjs-community/egg-fetch-middleware
-[snyk-image]: https://snyk.io/test/npm/egg-fetch-middleware/badge.svg?style=flat-square
+[snyk-image]: https://snyk.io/test/npm/egg-fetch-middleware/badge.svg
 [snyk-url]: https://snyk.io/test/npm/egg-fetch-middleware
 [download-image]: https://img.shields.io/npm/dm/egg-fetch-middleware.svg?style=flat-square
 [download-url]: https://npmjs.org/package/egg-fetch-middleware
