@@ -1,12 +1,12 @@
-"use strict";
-const assert = require("power-assert");
-const mock = require("egg-mock");
+'use strict';
+const assert = require('power-assert');
+const mock = require('egg-mock');
 
-describe("test/fetch-middleware.test.js", () => {
+describe('test/fetch-middleware.test.js', () => {
   let app;
   before(() => {
     app = mock.app({
-      baseDir: "apps/fetch-middleware-test"
+      baseDir: 'apps/fetch-middleware-test',
     });
     return app.ready();
   });
@@ -14,47 +14,47 @@ describe("test/fetch-middleware.test.js", () => {
   after(() => app.close());
   afterEach(mock.restore);
 
-  it("should get code 200", () => {
-    assert(app.config.coreMiddleware.includes("errorHandler"));
+  it('should get code 200', () => {
+    assert(app.config.coreMiddleware.includes('errorHandler'));
     return app
       .httpRequest()
-      .get("/ok")
+      .get('/ok')
       .expect(200)
       .expect({
         success: true,
-        data: "fetchMiddleware",
+        data: 'fetchMiddleware',
         meta: {},
-        message: ""
+        message: '',
       });
   });
 
-  it("sendNotFound should get code 404", () => {
+  it('sendNotFound should get code 404', () => {
     return app
       .httpRequest()
-      .get("/sendNotFound")
+      .get('/sendNotFound')
       .expect(404)
       .expect({});
   });
 
-  it("sendNotFoundRoute should get code 404", () => {
+  it('sendNotFoundRoute should get code 404', () => {
     return app
       .httpRequest()
-      .get("/sendNotFoundRoute")
+      .get('/sendNotFoundRoute')
       .expect(404)
       .expect({});
   });
 
-  it("sendInternalServerError should get code 500", () => {
-    assert(app.config.coreMiddleware.includes("errorHandler"));
+  it('sendInternalServerError should get code 500', () => {
+    assert(app.config.coreMiddleware.includes('errorHandler'));
     return app
       .httpRequest()
-      .get("/sendInternalServerError")
+      .get('/sendInternalServerError')
       .expect(500)
       .expect(res => {
         assert(
           res.body &&
             res.body.code === 500 &&
-            res.body.message === "自定义服务器内部错误" &&
+            res.body.message === '自定义服务器内部错误' &&
             res.body.success === false
         );
       });
