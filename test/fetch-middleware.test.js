@@ -59,4 +59,17 @@ describe('test/fetch-middleware.test.js', () => {
         );
       });
   });
+
+  it('param id should to 100', () => {
+    return app
+      .httpRequest()
+      .get('/convertToNumber/100')
+      .expect(200)
+      .expect({
+        success: true,
+        data: 100,
+        meta: {},
+        message: '',
+      });
+  });
 });

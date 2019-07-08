@@ -9,4 +9,5 @@ module.exports = app => {
     '/sendInternalServerError',
     controller.home.sendInternalServerError
   );
+  router.get('/convertToNumber/:id', controller.home.convertToNumber);
 };

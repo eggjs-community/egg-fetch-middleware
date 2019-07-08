@@ -79,6 +79,11 @@ class HomeController extends Controller {
     const err = new Error('自定义服务器内部错误');
     ctx.body = ctx.serverError(err);
   }
+
+  async convertToNumber(ctx) {
+    const id = ctx.helper.convertToNumber(ctx.params.id);
+    ctx.body = ctx.ok(id, {});
+  }
 }
 
 module.exports = HomeController;
