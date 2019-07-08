@@ -9,12 +9,12 @@
 
 [npm-image]: https://img.shields.io/npm/v/egg-fetch-middleware.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/egg-fetch-middleware
-[travis-image]: https://img.shields.io/travis/eggjs/egg-fetch-middleware.svg?style=flat-square
-[travis-url]: https://travis-ci.org/eggjs/egg-fetch-middleware
-[codecov-image]: https://img.shields.io/codecov/c/github/eggjs/egg-fetch-middleware.svg?style=flat-square
-[codecov-url]: https://codecov.io/github/eggjs/egg-fetch-middleware?branch=master
-[david-image]: https://img.shields.io/david/eggjs/egg-fetch-middleware.svg?style=flat-square
-[david-url]: https://david-dm.org/eggjs/egg-fetch-middleware
+[travis-image]: https://img.shields.io/travis/eggjs-community/egg-fetch-middleware.svg?style=flat-square
+[travis-url]: https://travis-ci.org/eggjs-community/egg-fetch-middleware
+[codecov-image]: https://img.shields.io/codecov/c/github/eggjs-community/egg-fetch-middleware.svg?style=flat-square
+[codecov-url]: https://codecov.io/github/eggjs-community/egg-fetch-middleware?branch=master
+[david-image]: https://img.shields.io/david/eggjs-community/egg-fetch-middleware.svg?style=flat-square
+[david-url]: https://david-dm.org/eggjs-community/egg-fetch-middleware
 [snyk-image]: https://snyk.io/test/npm/egg-fetch-middleware/badge.svg?style=flat-square
 [snyk-url]: https://snyk.io/test/npm/egg-fetch-middleware
 [download-image]: https://img.shields.io/npm/dm/egg-fetch-middleware.svg?style=flat-square
@@ -81,7 +81,7 @@ class HomeController extends Controller {
 
 ## Questions & Suggestions
 
-Please open an issue [here](https://github.com/eggjs/egg/issues).
+Please open an issue [here](https://github.com/eggjs-community/egg/issues).
 
 ## License
 
