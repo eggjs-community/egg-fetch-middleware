@@ -24,38 +24,40 @@
 Description here.
 -->
 
-## Install
+## 依赖说明
 
-```bash
-$ npm i egg-fetch-middleware --save
-```
+### 依赖的 egg 版本
 
-## Usage
+egg-fetch-middleware 版本 | egg 1.x
+--- | ---
+1.x | 😁
+0.x | ❌
+
+### 依赖的插件
+<!--
+
+如果有依赖其它插件，请在这里特别说明。如
+
+- security
+- multipart
+
+-->
+
+## 开启插件
 
 ```js
-// {app_root}/config/plugin.js
+// config/plugin.js
 exports.fetchMiddleware = {
   enable: true,
   package: 'egg-fetch-middleware',
 };
 ```
 
-## Configuration
+## 使用场景
 
-```js
-// {app_root}/config/config.default.js
-exports.fetchMiddleware = {
-};
-```
+fetchMiddleware 主要用于规范 fetch 数据交互的格式。
 
-see [config/config.default.js](config/config.default.js) for more detail.
-
-## Example
-
-
-fetchMiddleware is a plugin for formatting and getting data interactions.
-
-Once enabled in plugin.js, it can be handled directly in the controller or service via methods such as `ctx.ok(data, {})`. The following is `test/fixtures/apps/fetch-middleware-test/app/controller/home.js` (`return ctx.ok(data, {})` in service)
+在 plugin.js 中启用后，在 controller 或 service 中可通过 `ctx.ok` 等方法来直接处理。以下是 `test/fixtures/apps/fetch-middleware-test/app/controller/home.js` （service中直接 `return ctx.ok(data, {})` )
 
 ```javascript
 'use strict';
@@ -79,9 +81,20 @@ class HomeController extends Controller {
   }
 }
 
-## Questions & Suggestions
+module.exports = HomeController;
+```
 
-Please open an issue [here](https://github.com/eggjs/egg/issues).
+## 详细配置
+
+请到 [config/config.default.js](config/config.default.js) 查看详细配置项说明。
+
+## 单元测试
+
+<!-- 描述如何在单元测试中使用此插件，例如 schedule 如何触发。无则省略。-->
+
+## 提问交流
+
+请到 [egg issues](https://github.com/eggjs/egg/issues) 异步交流。
 
 ## License
 

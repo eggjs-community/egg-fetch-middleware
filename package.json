@@ -1,0 +1,60 @@
+{
+  "name": "egg-fetch-middleware",
+  "version": "1.0.0",
+  "description": "一个处理请求响应的中间件",
+  "eggPlugin": {
+    "name": "fetchMiddleware"
+  },
+  "keywords": [
+    "egg",
+    "eggPlugin",
+    "egg-plugin",
+    "egg-response",
+    "egg-fetch-middleware"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "autod": "^3.1.0",
+    "autod-egg": "^1.1.0",
+    "egg": "^2.22.2",
+    "egg-bin": "^4.13.0",
+    "egg-ci": "^1.12.0",
+    "egg-mock": "^3.23.1",
+    "egg-ts-helper": "^1.25.5",
+    "eslint": "^6.0.1",
+    "eslint-config-egg": "^7.4.1",
+    "power-assert": "^1.6.1"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "scripts": {
+    "test": "npm run lint -- --fix && egg-bin pkgfiles && npm run test-local",
+    "test-local": "egg-bin test",
+    "cov": "egg-bin cov",
+    "lint": "eslint .",
+    "ci": "egg-bin pkgfiles --check && npm run lint && npm run cov",
+    "pkgfiles": "egg-bin pkgfiles",
+    "autod": "autod",
+    "ets": "ets",
+    "clean": "ets clean"
+  },
+  "files": [
+    "app",
+    "config",
+    "app.js"
+  ],
+  "ci": {
+    "version": "8, 10"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eggjs-community/egg-fetch-middleware.git"
+  },
+  "bugs": {
+    "url": "https://github.com/eggjs-community/egg-fetch-middleware/issues"
+  },
+  "homepage": "https://github.com/eggjs-community/egg-fetch-middleware#readme",
+  "author": "TingGe<505253293@163.com>",
+  "license": "MIT"
+}
