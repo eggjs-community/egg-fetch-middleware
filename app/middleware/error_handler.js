@@ -6,8 +6,8 @@ module.exports = () => {
       await next();
     } catch (err) {
       if (err.errno === undefined && ctx.app.config.env === 'local') {
-        if (ctx.coreLogger) {
-          ctx.coreLogger.error(err);
+        if (ctx.logger) {
+          ctx.logger.error(err.message, err);
         } else {
           console.error(err);
           console.error(err.stack);

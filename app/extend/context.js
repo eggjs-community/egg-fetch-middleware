@@ -34,14 +34,13 @@ module.exports = {
 
   error(code = Code.INTERNAL_SERVER_ERROR, message = '', stack, data, meta) {
     const env = this.app.config.env;
-    const defaultErrorNo = 500;
     const result = {
       code,
       message,
       success: false,
     };
 
-    this.status = code || defaultErrorNo;
+    this.status = typeof code === 'number' ? code : Code.INTERNAL_SERVER_ERROR;
     if ((env === 'local' || env === 'unittest') && stack) {
       // 只在这2个环境给出更详细的错误
       result.stack = stack;
