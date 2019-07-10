@@ -9,8 +9,13 @@ class HomeController extends Controller {
   }
 
   async notFound(ctx) {
-    const data = ctx.throwError(404, '未找到的数据');
-    ctx.body = ctx.ok(data, {});
+    ctx.throwError(404, '未找到的数据');
+  }
+
+  async customServerError(ctx) {
+    // 注意：如 throwError 服务器端错误时，须 ctx.AcceptJSON 为 true。
+    // 可参考 https://eggjs.org/api/Request.html#acceptJSON
+    ctx.throwError(500, '自定义错误');
   }
 
   async sendInternalServerError(ctx) {

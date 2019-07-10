@@ -5,6 +5,7 @@ module.exports = app => {
 
   router.get('/ok', controller.home.index);
   router.get('/sendNotFound', controller.home.notFound);
+  router.get('/customServerError', controller.home.customServerError);
   router.get(
     '/sendInternalServerError',
     controller.home.sendInternalServerError

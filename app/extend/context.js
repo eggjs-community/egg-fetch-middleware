@@ -67,7 +67,12 @@ module.exports = {
     );
   },
 
-  throwError(code = Code.INTERNAL_SERVER_ERROR, message = '', data, meta) {
+  throwError(
+    code = Code.INTERNAL_SERVER_ERROR,
+    message = '',
+    data = {},
+    meta = {}
+  ) {
     const error = new CustomError(message, code);
     const env = this.app.config.env;
 

@@ -36,7 +36,7 @@ $ npm i egg-fetch-middleware --save
 // {app_root}/config/plugin.js
 exports.fetchMiddleware = {
   enable: true,
-  package: 'egg-fetch-middleware',
+  package: "egg-fetch-middleware"
 };
 ```
 
@@ -44,23 +44,21 @@ exports.fetchMiddleware = {
 
 ```js
 // {app_root}/config/config.default.js
-exports.fetchMiddleware = {
-};
+exports.fetchMiddleware = {};
 ```
 
 see [config/config.default.js](config/config.default.js) for more detail.
 
 ## Example
 
-
 fetchMiddleware is a plugin for formatting and getting data interactions.
 
 Once enabled in plugin.js, it can be handled directly in the controller or service via methods such as `ctx.ok(data, {})`. The following is `test/fixtures/apps/fetch-middleware-test/app/controller/home.js` (`return ctx.ok(data, {})` in service)
 
 ```javascript
-'use strict';
+"use strict";
 
-const Controller = require('egg').Controller;
+const Controller = require("egg").Controller;
 
 class HomeController extends Controller {
   async index(ctx) {
@@ -69,12 +67,17 @@ class HomeController extends Controller {
   }
 
   async notFound(ctx) {
-    const data = ctx.throwError(404, '未找到的数据');
-    ctx.body = ctx.ok(data, {});
+    ctx.throwError(404, "未找到的数据");
+  }
+
+  async customServerError(ctx) {
+    // Note: If throwError is on the server side, ctx.AcceptJSON must be true.
+    // refer to https://eggjs.org/api/Request.html#acceptJSON
+    ctx.throwError(500, "自定义错误");
   }
 
   async sendInternalServerError(ctx) {
-    const err = new Error('自定义服务器内部错误');
+    const err = new Error("自定义服务器内部错误");
     ctx.body = ctx.serverError(err);
   }
 
@@ -86,8 +89,6 @@ class HomeController extends Controller {
 
 module.exports = HomeController;
 ```
-
-
 
 ## Questions & Suggestions
 

@@ -44,6 +44,22 @@ describe('test/fetch-middleware.test.js', () => {
       .expect({});
   });
 
+  it('customServerError should get code 500', () => {
+    return app
+      .httpRequest()
+      .get('/customServerError')
+      .set('Accept', 'application/json')
+      .expect(500)
+      .expect(res => {
+        assert(
+          res.body &&
+            res.body.code === 500 &&
+            res.body.message === '自定义错误' &&
+            res.body.success === false
+        );
+      });
+  });
+
   it('sendInternalServerError should get code 500', () => {
     assert(app.config.coreMiddleware.includes('errorHandler'));
     return app
