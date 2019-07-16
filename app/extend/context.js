@@ -20,7 +20,7 @@ const Code = {
 };
 
 module.exports = {
-  ok(data, meta, message = '', code = Code.OK) {
+  ok(data = {}, meta = {}, message = '', code = Code.OK) {
     this.status = code;
     const result = {
       success: true,
@@ -32,7 +32,13 @@ module.exports = {
     return result;
   },
 
-  error(code = Code.INTERNAL_SERVER_ERROR, message = '', stack, data, meta) {
+  error(
+    code = Code.INTERNAL_SERVER_ERROR,
+    message = '',
+    stack = '',
+    data = {},
+    meta = {}
+  ) {
     const env = this.app.config.env;
     const result = {
       code,
@@ -57,7 +63,7 @@ module.exports = {
     return result;
   },
 
-  serverError(error) {
+  serverError(error = { errno: Code.INTERNAL_SERVER_ERROR, message: '', stack: '', data: {}, meta: {} }) {
     return this.error(
       error.errno,
       error.message,
