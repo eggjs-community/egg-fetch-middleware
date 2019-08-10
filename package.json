@@ -1,6 +1,6 @@
 {
   "name": "egg-fetch-middleware",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "一个处理请求响应的中间件",
   "eggPlugin": {
     "name": "fetchMiddleware"
@@ -12,16 +12,18 @@
     "egg-response",
     "egg-fetch-middleware"
   ],
-  "dependencies": {},
+  "dependencies": {
+
+  },
   "devDependencies": {
     "autod": "^3.1.0",
     "autod-egg": "^1.1.0",
-    "egg": "^2.22.2",
+    "egg": "^2.23.0",
     "egg-bin": "^4.13.0",
-    "egg-ci": "^1.12.0",
+    "egg-ci": "^1.13.0",
     "egg-mock": "^3.23.1",
     "egg-ts-helper": "^1.25.5",
-    "eslint": "^6.0.1",
+    "eslint": "^6.1.0",
     "eslint-config-egg": "^7.4.1",
     "power-assert": "^1.6.1"
   },

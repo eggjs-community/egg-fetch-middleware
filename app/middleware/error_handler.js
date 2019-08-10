@@ -1,5 +1,10 @@
 'use strict';
 
+/**
+ * 捕获系统异常的中间件
+ *
+ * * @return {Object} 固定格式的响应内容
+ */
 module.exports = () => {
   return async (ctx, next) => {
     try {
