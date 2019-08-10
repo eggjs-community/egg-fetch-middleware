@@ -12,10 +12,11 @@ class HomeController extends Controller {
     ctx.throwError(404, '未找到的数据');
   }
 
+  // 不推荐这类用法，但业务场景有这么写的，一并兼容了
   async customServerError(ctx) {
     // 注意：如 throwError 服务器端错误时，须 ctx.AcceptJSON 为 true。
     // 可参考 https://eggjs.org/api/Request.html#acceptJSON
-    ctx.throwError(500, '自定义错误');
+    ctx.throwError(500, '自定义错误', {}, {}, true);
   }
 
   async sendInternalServerError(ctx) {

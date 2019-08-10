@@ -20,6 +20,15 @@ const Code = {
 };
 
 module.exports = {
+  /**
+   * 正常响应成功
+   *
+   * @param {*} [data={}] 响应数据
+   * @param {*} [meta={}] 响应的元数据信息
+   * @param {string} [message=''] 描述信息
+   * @param {*} [code=Code.OK] 响应的状态码，参考 https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10 的 10.2 Successful 2xx
+   * @return {Object} 固定格式的响应内容
+   */
   ok(data = {}, meta = {}, message = '', code = Code.OK) {
     this.status = code;
     const result = {
@@ -32,6 +41,16 @@ module.exports = {
     return result;
   },
 
+  /**
+ * 定义 error 结构，仅供内部使用
+ *
+ * @param {*} [code=Code.INTERNAL_SERVER_ERROR] 响应的状态码，参考 https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10 的 10.5 Server Error 5xx
+ * @param {string} [message=''] 描述信息
+ * @param {string} [stack=''] Error的堆栈信息
+ * @param {*} [data={}] 响应数据
+ * @param {*} [meta={}] 响应的元数据信息
+ * * @return {Object} 固定格式的响应内容
+ */
   error(
     code = Code.INTERNAL_SERVER_ERROR,
     message = '',
@@ -39,7 +58,6 @@ module.exports = {
     data = {},
     meta = {}
   ) {
-    const env = this.app.config.env;
     const result = {
       code,
       message,
@@ -47,8 +65,8 @@ module.exports = {
     };
 
     this.status = typeof code === 'number' ? code : Code.INTERNAL_SERVER_ERROR;
-    if ((env === 'local' || env === 'unittest') && stack) {
-      // 只在这2个环境给出更详细的错误
+
+    if (stack) {
       result.stack = stack;
     }
 
@@ -63,6 +81,12 @@ module.exports = {
     return result;
   },
 
+  /**
+ *  响应服务器错误，通常用于处理 https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10 的 10.5 Server Error 5xx
+ *
+ * @param {string} [error={ errno: Code.INTERNAL_SERVER_ERROR, message: '', stack: '', data: {}, meta: {} }] 服务器错误信息
+ * * @return {Object} 固定格式的响应内容
+ */
   serverError(error = { errno: Code.INTERNAL_SERVER_ERROR, message: '', stack: '', data: {}, meta: {} }) {
     return this.error(
       error.errno,
@@ -73,16 +97,26 @@ module.exports = {
     );
   },
 
+  /**
+   * 自定义错误，通常用于处理非2xx和非5xx类型的错误
+   *
+   * @param {*} [code=Code.NOT_FOUND] 响应的状态码，参考 https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10
+   * @param {string} [message=''] 描述信息
+   * @param {*} [data={}] 响应数据
+   * @param {*} [meta={}] 响应的元数据信息
+   * @param {boolean} [showStack=false] 显示指定显示Error错误栈
+   */
   throwError(
-    code = Code.INTERNAL_SERVER_ERROR,
+    code = Code.NOT_FOUND,
     message = '',
     data = {},
-    meta = {}
+    meta = {},
+    showStack = false
   ) {
     const error = new CustomError(message, code);
     const env = this.app.config.env;
 
-    if (env !== 'local' && env !== 'unittest') {
+    if (env !== 'local' && env !== 'unittest' || !showStack) {
       // 只在这2个环境给出更详细的错误
       error.stack = undefined;
     }

@@ -55,7 +55,8 @@ describe('test/fetch-middleware.test.js', () => {
           res.body &&
             res.body.code === 500 &&
             res.body.message === '自定义错误' &&
-            res.body.success === false
+            res.body.success === false &&
+            !!res.body.stack === true
         );
       });
   });
