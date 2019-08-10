@@ -3,10 +3,12 @@
 const CustomError = require('../utils/custom_error');
 
 const Code = {
+  CONTINUE: 100, // 一切正常, 客户端应该继续请求
   OK: 200, // [GET] 服务器成功返回用户请求的数据
   CREATED: 201, // [POST/PUT/PATCH] 用户新建或修改数据成功
   ACCEPTED: 202, // 一个请求已经进入后台排队（异步任务）
   NO_CONTENT: 204, // [DELETE] 删除数据成功
+  MULTIPLE_CHOICES: 300, // 重定向的响应状态码，表示该请求拥有多种可能的响应
   SEE_OTHER: 303, // [POST/PUT/DELETE] 暂时重定向，由客户端决定
   BAD_REQUEST: 400, // [POST/PUT/PATCH] 服务器不理解客户端的请求，未做任何处理
   UNAUTHORIZED: 401, // 用户未提供身份验证凭据，或者没有通过身份验证
@@ -66,8 +68,13 @@ module.exports = {
 
     this.status = typeof code === 'number' ? code : Code.INTERNAL_SERVER_ERROR;
 
-    if (stack) {
-      result.stack = stack;
+    const env = this.app.config.env;
+    const showStack = this.app.config.fetchMiddleware && this.app.config.fetchMiddleware.showStack;
+
+    result.stack = stack;
+    if (env !== 'local' && env !== 'unittest' || !showStack) {
+      // 只在这2个环境给出更详细的错误
+      result.stack = undefined;
     }
 
     if (data) {
@@ -98,23 +105,34 @@ module.exports = {
   },
 
   /**
-   * 自定义错误，通常用于处理非2xx和非5xx类型的错误
+   * 自定义错误，用于处理1xx、3xx、4xx系统异常和业务错误处理
    *
-   * @param {*} [code=Code.NOT_FOUND] 响应的状态码，参考 https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10
+   * @param {*} [code=Code.NOT_FOUND]
+   *   响应的状态码(参考 https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10 1xx、3xx、4xx)，按系统异常处理
+  *    否则，返回200给前端，让业务系统按照业务系统错误处理
    * @param {string} [message=''] 描述信息
    * @param {*} [data={}] 响应数据
    * @param {*} [meta={}] 响应的元数据信息
-   * @param {boolean} [showStack=false] 显示指定显示Error错误栈
    */
   throwError(
     code = Code.NOT_FOUND,
     message = '',
     data = {},
-    meta = {},
-    showStack = false
+    meta = {}
   ) {
-    const error = new CustomError(message, code);
+    let _code = code;
+    // 当传入的code，非1xx、3xx、4xx 时，统一返回200，交给业务前端处理
+    if (
+      code < Code.CONTINUE ||
+      code >= Code.OK && code < Code.MULTIPLE_CHOICES ||
+      code >= Code.INTERNAL_SERVER_ERROR
+    ) {
+      _code = Code.OK;
+    }
+
+    const error = new CustomError(message, _code);
     const env = this.app.config.env;
+    const showStack = this.app.config.fetchMiddleware && this.app.config.fetchMiddleware.showStack;
 
     if (env !== 'local' && env !== 'unittest' || !showStack) {
       // 只在这2个环境给出更详细的错误

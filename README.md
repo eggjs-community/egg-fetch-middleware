@@ -44,7 +44,10 @@ exports.fetchMiddleware = {
 
 ```js
 // {app_root}/config/config.default.js
-exports.fetchMiddleware = {};
+exports.fetchMiddleware = {
+  // The local and unittest environments are forced to be enabled. Other environments use this configuration to specify whether to display Error stack information when an error is thrown
+  showStack: false,
+};
 ```
 
 see [config/config.default.js](config/config.default.js) for more detail.
@@ -56,34 +59,41 @@ fetchMiddleware is a plugin for formatting and getting data interactions.
 Once enabled in plugin.js, it can be handled directly in the controller or service via methods such as `ctx.ok(data, {})`. The following is `test/fixtures/apps/fetch-middleware-test/app/controller/home.js` (`return ctx.ok(data, {})` in service)
 
 ```javascript
-"use strict";
+'use strict';
 
-const Controller = require("egg").Controller;
+const Controller = require('egg').Controller;
 
 class HomeController extends Controller {
-  async index(ctx) {
-    const data = this.app.plugins.fetchMiddleware.name;
-    ctx.body = ctx.ok(data, {});
-  }
-
-  async notFound(ctx) {
-    ctx.throwError(404, "未找到的数据");
-  }
-
-  async customServerError(ctx) {
-    // Note: If throwError is on the server side, ctx.AcceptJSON must be true.
-    // refer to https://eggjs.org/api/Request.html#acceptJSON
-    ctx.throwError(500, "自定义错误");
-  }
-
-  async sendInternalServerError(ctx) {
-    const err = new Error("自定义服务器内部错误");
-    ctx.body = ctx.serverError(err);
-  }
-
   async convertToNumber(ctx) {
     const id = ctx.helper.convertToNumber(ctx.params.id);
     ctx.body = ctx.ok(id, {});
+  }
+
+  async index(ctx) {
+    ctx.body = ctx.ok('Format 2xx data', {});
+  }
+
+  async sendInternalServerError(ctx) {
+    const err = new Error('Custom 5xx server internal error');
+    ctx.body = ctx.serverError(err);
+  }
+
+  async notFound(ctx) {
+    ctx.throwError(404, 'Custom 4xx server internal error');
+  }
+
+  // Recommended to use a value greater than or equal to 10000 to use as a business error code
+  async doBusinessError(ctx) {
+    // Note: If throwError is on the server side, ctx.AcceptJSON must be true.
+		// can refer to https://eggjs.org/api/Request.html#acceptJSON
+    ctx.throwError(10000, 'Example, using 10000 as a business error code');
+  }
+
+  // Not recommended, but some business scenario is written like this.  Handle the front end by business error
+  async doThrow5xxError(ctx) {
+    // Note: If throwError is on the server side, ctx.AcceptJSON must be true.
+		// can refer to https://eggjs.org/api/Request.html#acceptJSON
+    ctx.throwError(500, 'It is not recommended to use the http status code to handle business errors.');
   }
 }
 
@@ -97,7 +107,3 @@ Please open an issue [here](https://github.com/eggjs-community/egg/issues).
 ## License
 
 [MIT](LICENSE)
-
-```
-
-```
